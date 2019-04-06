@@ -8,7 +8,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.StripPrefix("/static/", http.FileServer(http.Dir("/static")))
+		http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
 	})
 	http.HandleFunc("/123", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Welcome to the root123")
