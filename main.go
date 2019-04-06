@@ -3,12 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
+		fmt.Fprintf(w, "Welcome to the root")
 	})
 	http.HandleFunc("/123", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Welcome to the root123")
@@ -46,5 +47,8 @@ func main() {
 
 	})
 
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	log.Println("Listening...")
 	http.ListenAndServe(":8080", nil)
 }
