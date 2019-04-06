@@ -8,7 +8,8 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Welcome to the root")
+		fs := http.FileServer(http.Dir("static/"))
+		http.Handle("/static/", http.StripPrefix("/static/", fs))
 	})
 	http.HandleFunc("/123", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Welcome to the root123")
@@ -45,9 +46,6 @@ func main() {
 		w.Write(js)
 
 	})
-
-	fs := http.FileServer(http.Dir("static/"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.ListenAndServe(":80", nil)
 }
